@@ -2,12 +2,12 @@
 require 'minitest/autorun'  # => true
 require 'minitest/pride'    # => true
 
-require_relative '../lib/currencyclass.rb'  # ~> SyntaxError: /Users/mdotz/theironyard/projects/currency_converter/lib/currencyclass.rb:44: syntax error, unexpected end-of-input, expecting keyword_end
+require_relative '../lib/currencyclass.rb'  # => true
 
 class CurrencyTest < Minitest::Test
 
   def test_currency_class_exists
-    assert(Currency)
+    assert(Currency)              # => true
   end
 
   def test_plus_exists
@@ -19,8 +19,8 @@ class CurrencyTest < Minitest::Test
   def test_plus
     currency       = Currency.new(1, "USD") #given i have a currency
     other_currency = Currency.new(5, "USD") #when i add another currency
-    expected       = Currency.new(6, "USD")
-    actual         = (currency + other_currency)
+    expected       = Currency.new(6, "USD")       # => #<Currency:0x007fe1bc18e138 @amount_to_convert=6, @country_code="USD">
+    actual         = (currency + other_currency)  # => #<Currency:0x007fe1bc18dfa8 @amount_to_convert=6, @country_code="USD">
     assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
     # Currency.new(6, "USD")  (currency + other_currency)  # => false
   end
@@ -28,8 +28,8 @@ class CurrencyTest < Minitest::Test
   def test_subtract
     currency       = Currency.new(5, "USD") #given i have a currency
     other_currency = Currency.new(1, "USD") #when i subtract another currency
-    expected       = Currency.new(4, "USD")
-    actual         = (currency - other_currency)
+    expected       = Currency.new(4, "USD")       # => #<Currency:0x007fe1bc18f290 @amount_to_convert=4, @country_code="USD">
+    actual         = (currency - other_currency)  # => #<Currency:0x007fe1bc18f0d8 @amount_to_convert=4, @country_code="USD">
     assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
   end
 
@@ -64,15 +64,17 @@ class CurrencyTest < Minitest::Test
     currency = Currency.new(1, "USD") #given I have a currency with a country A
     other_currency = Currency.new(1, "JPN") #an another country B
     assert_raises(DifferentCurrencyCodeError)  do #then I get an error
-      (currency - other_currency) #when I try to subtract them
-    end
+    (currency - other_currency) #when I try to subtract them
+    end                                                       # => #<DifferentCurrencyCodeError: DifferentCurrencyCodeError>
   end
 
-  def test_new_object_when_multiplied
-    currency = Currency.new(1, "USD") #given I have a currency with a country A
-    other_currency = Currency.new(10, "USD") #and another country A
-    assert_equal(Currency.new(10, "USD"), (currency * other_currency)) #when I try to multiply them
+  def test_ability_to_multiply_fixed_and_float_numbers
+    currency = Currency.new(1, "USD") #given I have a currency
+    conversion_multiplier = 30                          # => 30
+   #when I multiply the currency by a conversion rate
+    assert_equal(30, currency.amount_to_convert * 30) #has to look at the
   end
+
 end
 
 
@@ -87,18 +89,14 @@ end
 
 
 
-# >> Run options: --seed 3062
+# >> Run options: --seed 12147
 # >>
 # >> # Running:
 # >>
+# >> ......S..
 # >>
+# >> Finished in 0.001412s, 6372.2543 runs/s, 5664.2261 assertions/s.
 # >>
-# >> Finished in 0.000817s, 0.0000 runs/s, 0.0000 assertions/s.
+# >> 9 runs, 8 assertions, 0 failures, 0 errors, 1 skips
 # >>
-# >> 0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
-
-# ~> SyntaxError
-# ~> /Users/mdotz/theironyard/projects/currency_converter/lib/currencyclass.rb:44: syntax error, unexpected end-of-input, expecting keyword_end
-# ~>
-# ~> /Users/mdotz/theironyard/projects/currency_converter/spec/currencytestclass.rb:5:in `require_relative'
-# ~> /Users/mdotz/theironyard/projects/currency_converter/spec/currencytestclass.rb:5:in `<main>'
+# >> You have skipped tests. Run with --verbose for details.

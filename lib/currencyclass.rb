@@ -1,3 +1,16 @@
+
+class DifferentCurrencyCodeError < StandardError
+  def message
+    "You cannot add or subtract two Currency objects with different currency codes."
+  end
+end
+
+class NotValidCountryCode < StandardError
+  def message
+    "That is not a valid country code. Please choose from this list: {hash of codes and conversion rates}"
+  end
+end
+
 class Currency
 
   attr_reader :amount_to_convert, :country_code  # => nil
@@ -13,9 +26,8 @@ class Currency
   # end
 
   def ==(other)  #this is required to make the "No visible difference" error go away
-      #this was working!! (changed from self to @)
-      @amount_to_convert == other.amount_to_convert &&
-      @country_code == other.country_code
+      self.amount_to_convert == other.amount_to_convert &&
+      self.country_code == other.country_code
   end
 
   def +(other)
@@ -36,19 +48,12 @@ class Currency
     end
   end
 
-  def *(other)
-
-end
-
-
-class DifferentCurrencyCodeError < StandardError
-  def message
-    "You cannot add or subtract two Currency objects with different currency codes."
+  def *(rate)
+    if rate.is_a?(Fixnum) && rate.is_a?(Float)
+    Currency.new(1, "USD") * rate
   end
+  end
+
 end
 
-class DifferentCountryCodeError < StandardError #when country codes do not match
-  def message
-    "You cannot add or subtract two Currency objects with different country codes."
-  end
-end
+
