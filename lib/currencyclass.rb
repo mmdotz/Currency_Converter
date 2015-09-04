@@ -5,39 +5,41 @@ class Currency
   def initialize(amount, country)
     @amount_to_convert = amount
     @country_code = country
-
   end
 
+  # def ==(other)  #this is required to make the "No visible difference" error go away
+  #     @amount_to_convert == other.amount_to_convert &&
+  #     @country_code == other.country_code
+  # end
+
   def ==(other)  #this is required to make the "No visible difference" error go away
-    self.amount_to_convert == other.amount_to_convert &&
-      self.country_code == other.country_code
+      #this was working!! (changed from self to @)
+      @amount_to_convert == other.amount_to_convert &&
+      @country_code == other.country_code
   end
 
   def +(other)
     #Currency.new(5,"USD") needs to equal Currency.new(3, "USD")+(Currency.new(2, "USD")
-    Currency.new(self.amount_to_convert + other.amount_to_convert, self.country_code)
+    if self.country_code != other.country_code
+      raise DifferentCurrencyCodeError
+    else
+      Currency.new(self.amount_to_convert + other.amount_to_convert, self.country_code)
+    end
   end
+
 
   def -(other)
-    Currency.new(self.amount_to_convert - other.amount_to_convert, self.country_code)
-  end
-
-  def compare_identical_currency_objects
-    # if currency and other currency are not equal then return false
-    if Currency.new(self.amount_to_convert) == Currency.new(other.amount_to_convert) ||
-      Currency.new(self.country_code) == Currency.new(other.country_code)
-      return false
+    if self.country_code != other.country_code
+      raise DifferentCurrencyCodeError
+    else
+      Currency.new(self.amount_to_convert - other.amount_to_convert, self.country_code)
     end
   end
 
-  def compare_different_currency_objects
-    # if currency and other currency are not equal then return false
-    if Currency.new(self.amount_to_convert) != Currency.new(other.amount_to_convert) ||
-      Currency.new(self.country_code) != Currency.new(other.country_code)
-      return false
-    end
-  end
+  def *(other)
+
 end
+
 
 class DifferentCurrencyCodeError < StandardError
   def message
@@ -45,17 +47,8 @@ class DifferentCurrencyCodeError < StandardError
   end
 end
 
-def double(n)
-  raise NotHowMathWorksError if n.is_a?(String)  # => nil, nil, nil, nil, nil, nil
-  2 * n                                          # => 2, 6, 100, 0, 1000
-end
-
-[1, 3, 50, "fiibar", nil, 500].each do |number|   # => [1, 3, 50, "fiibar", nil, 500]
-  begin
-    double(number)                                # => 2, 6, 100, 0, 1000
-  rescue NotHowMathWorksError => error
-    puts "#{number.inspect} was not processable"  # => nil
-  rescue TypeError => error
-    puts "#{number.inspect} was illegal"          # => nil
-  end                                             # => 2, 6, 100, nil, 0, 1000
+class DifferentCountryCodeError < StandardError #when country codes do not match
+  def message
+    "You cannot add or subtract two Currency objects with different country codes."
+  end
 end
