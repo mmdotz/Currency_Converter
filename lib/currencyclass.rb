@@ -22,7 +22,15 @@ class Currency
     Currency.new(self.amount_to_convert - other.amount_to_convert, self.country_code)
   end
 
-  def compare_currency_objects
+  def compare_identical_currency_objects
+    # if currency and other currency are not equal then return false
+    if Currency.new(self.amount_to_convert) == Currency.new(other.amount_to_convert) ||
+      Currency.new(self.country_code) == Currency.new(other.country_code)
+      return false
+    end
+  end
+
+  def compare_different_currency_objects
     # if currency and other currency are not equal then return false
     if Currency.new(self.amount_to_convert) != Currency.new(other.amount_to_convert) ||
       Currency.new(self.country_code) != Currency.new(other.country_code)
