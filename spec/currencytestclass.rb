@@ -42,8 +42,23 @@ class CurrencyTest < Minitest::Test
   end
 
 
-  def test_if_currency_codes_match
-    skip
+  def test_if_exception_DifferentCurrencyCodeError_is_raised
+    currency = Currency.new(1, "USD") #given I have a currency
+    other_currency = Currency.new(5, "USD")#when I compare a currency with a different amount_to_convert
+    if currency != other_currency
+     raise error (error)
   end
 
 end
+
+
+
+
+
+
+
+
+
+
+
+
