@@ -6,6 +6,11 @@ require_relative '../lib/currencyclass.rb'  # => true
 
 class CurrencyTest < Minitest::Test
 
+  # def initialize(amount_to_convert, country_code)
+  #   @country_code = country_code
+  #   @amount_to_convert = amount_to_convert
+  # end
+
   def test_currency_class_exists
     assert(Currency)              # => true
   end
@@ -19,8 +24,8 @@ class CurrencyTest < Minitest::Test
   def test_plus
     currency       = Currency.new(1, "USD") #given i have a currency
     other_currency = Currency.new(5, "USD") #when i add another currency
-    expected       = Currency.new(6, "USD")       # => #<Currency:0x007fe1bc18e138 @amount_to_convert=6, @country_code="USD">
-    actual         = (currency + other_currency)  # => #<Currency:0x007fe1bc18dfa8 @amount_to_convert=6, @country_code="USD">
+    expected       = Currency.new(6, "USD")       # => #<Currency:0x007fde4a149580 @amount_to_convert=6, @country_code="USD">
+    actual         = (currency + other_currency)  # => #<Currency:0x007fde4a149378 @amount_to_convert=6, @country_code="USD">
     assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
     # Currency.new(6, "USD")  (currency + other_currency)  # => false
   end
@@ -28,8 +33,8 @@ class CurrencyTest < Minitest::Test
   def test_subtract
     currency       = Currency.new(5, "USD") #given i have a currency
     other_currency = Currency.new(1, "USD") #when i subtract another currency
-    expected       = Currency.new(4, "USD")       # => #<Currency:0x007fe1bc18f290 @amount_to_convert=4, @country_code="USD">
-    actual         = (currency - other_currency)  # => #<Currency:0x007fe1bc18f0d8 @amount_to_convert=4, @country_code="USD">
+    expected       = Currency.new(4, "USD")       # => #<Currency:0x007fde4a153dc8 @amount_to_convert=4, @country_code="USD">
+    actual         = (currency - other_currency)  # => #<Currency:0x007fde4a14be48 @amount_to_convert=4, @country_code="USD">
     assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
   end
 
@@ -53,7 +58,7 @@ class CurrencyTest < Minitest::Test
   end
 
 
-  def two_different_currency_country_codes_are_equal
+  def test_two_different_currency_country_codes_are_equal
     currency = Currency.new(1, "USD") #given I have a currency
     other_currency = Currency.new(1, "USD") #when I compare a currency with same country_code
     assert(currency == other_currency) #then they are equal
@@ -68,13 +73,20 @@ class CurrencyTest < Minitest::Test
     end                                                       # => #<DifferentCurrencyCodeError: DifferentCurrencyCodeError>
   end
 
-  def test_ability_to_multiply_fixed_and_float_numbers
+  def test_ability_to_multiply_fixed_and_float_numbers  #returns a number not an object
+    skip
     currency = Currency.new(1, "USD") #given I have a currency
-    conversion_multiplier = 30                          # => 30
+    conversion_multiplier = 30
    #when I multiply the currency by a conversion rate
-    assert_equal(30, currency.amount_to_convert * 30) #has to look at the
+    assert_equal(30, currency.amount_to_convert * 30) #integer
   end
 
+  def test_ability_to_multiply_fixed_and_float_numbers
+  currency = Currency.new(1, "USD") #given I have a currency
+  conversion_multiplier = 30
+   #when I multiply the currency by a conversion rate
+  assert_equal(Currency.new(30, "USD"), Currency.new(currency.amount_to_convert * 30, currency.country_code) ) #returns NEW object with the WRONG country code
+  end
 end
 
 
@@ -89,14 +101,14 @@ end
 
 
 
-# >> Run options: --seed 12147
+# >> Run options: --seed 1261
 # >>
 # >> # Running:
 # >>
-# >> ......S..
+# >> S......S..
 # >>
-# >> Finished in 0.001412s, 6372.2543 runs/s, 5664.2261 assertions/s.
+# >> Finished in 0.007899s, 1265.9683 runs/s, 1012.7746 assertions/s.
 # >>
-# >> 9 runs, 8 assertions, 0 failures, 0 errors, 1 skips
+# >> 10 runs, 8 assertions, 0 failures, 0 errors, 2 skips
 # >>
 # >> You have skipped tests. Run with --verbose for details.

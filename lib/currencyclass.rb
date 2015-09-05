@@ -50,9 +50,28 @@ class Currency
 
   def *(rate)
     if rate.is_a?(Fixnum) && rate.is_a?(Float)
-    Currency.new(1, "USD") * rate
-  end
-  end
+    converted_object = Currency.new(self.amount * rate, self.country)
+    return converted_object
+    end
+  end     #==>returns currency object
+
+ #  def *(multiply)
+ #   if multiply.is_a?(Currency)
+ #     raise DifferentCurrencyCodeError if multiply.is_a?(Float) == false &&
+ #     multiply._is_a?(Fixnum) == false
+ #     new_convert = Currency.new(@amt_to_convert * multiply, @ccode)
+ #     return new_convert
+ #   end
+ # end
+
+ # def test_multiply_method
+ #   currency       = Currency.new(10, "USD")               # => #<Currency:0x007fde4a1918f8 @amt_to_convert=10, @ccode="USD">
+ #   multiple       = 3                                     # => 3
+ #   expected       = Currency.new(30, "USD")                                    # => 30
+ #   actual         = currency.amt_to_convert * multiple    # => 30
+ #   assert_equal(30, actual)                               # => true
+ # end
+
 
 end
 
