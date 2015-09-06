@@ -31,48 +31,42 @@ class Currency
   end
 
   def +(other)
-    #Currency.new(5,"USD") needs to equal Currency.new(3, "USD")+(Currency.new(2, "USD")
-    if self.country_code != other.country_code
-      raise DifferentCurrencyCodeError
+    if other.is_a?(Currency) && if self.country_code.==(other.country_code)
+      new_amount = other.amount_to_convert + @amount_to_convert
+      Currency.new(new_amount, @country_code)
     else
-      Currency.new(self.amount_to_convert + other.amount_to_convert, self.country_code)
+    raise DifferentCurrencyCodeError
     end
   end
-
+    #   #OR
+    # else
+    #   Currency.new(self.amount_to_convert + other.amount_to_convert, self.country_code)
+    # end
+  end
 
   def -(other)
-    if self.country_code != other.country_code
-      raise DifferentCurrencyCodeError
+    if other.is_a?(Currency) && self.country_code.==(other.country_code)
+      new_amount = other.amount_to_convert - @amount_to_convert
+      Currency.new(new_amount, @country_code)
     else
-      Currency.new(self.amount_to_convert - other.amount_to_convert, self.country_code)
+    raise DifferentCurrencyCodeError
     end
   end
 
+  # def -(other)
+  #   if self.country_code != other.country_code
+  #     raise DifferentCurrencyCodeError
+  #   else
+  #     Currency.new(self.amount_to_convert - other.amount_to_convert, self.country_code)
+  #   end
+  # end
+
   def *(rate)
-    if rate.is_a?(Fixnum) && rate.is_a?(Float)
-    converted_object = Currency.new(self.amount * rate, self.country)
-    return converted_object
+    if rate.is_a?(Fixnum) || rate.is_a?(Float)
+    new_amount = amount_to_convert * rate
+    Currency.new(new_amount, @country_code)
     end
   end     #==>returns currency object
-
- #  def *(multiply)
- #   if multiply.is_a?(Currency)
- #     raise DifferentCurrencyCodeError if multiply.is_a?(Float) == false &&
- #     multiply._is_a?(Fixnum) == false
- #     new_convert = Currency.new(@amt_to_convert * multiply, @ccode)
- #     return new_convert
- #   end
- # end
-
- # def test_multiply_method
- #   currency       = Currency.new(10, "USD")               # => #<Currency:0x007fde4a1918f8 @amt_to_convert=10, @ccode="USD">
- #   multiple       = 3                                     # => 3
- #   expected       = Currency.new(30, "USD")                                    # => 30
- #   actual         = currency.amt_to_convert * multiple    # => 30
- #   assert_equal(30, actual)                               # => true
- # end
-
-
 end
 
 

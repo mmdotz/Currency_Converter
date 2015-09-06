@@ -21,21 +21,34 @@ class CurrencyTest < Minitest::Test
     assert_respond_to(input_amount, :plus)
   end
 
+  # def test_plus
+  #   currency       = Currency.new(1, "USD") #given i have a currency
+  #   other_currency = Currency.new(5, "USD") #when i add another currency
+  #   expected       = Currency.new(6, "USD")       # => #<Currency:0x007fb9ca107198 @amount_to_convert=6, @country_code="USD">
+  #   actual         = (currency + other_currency)  # => #<Currency:0x007fb9ca107008 @amount_to_convert=6, @country_code="USD">
+  #   assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
+  #   # Currency.new(6, "USD")  (currency + other_currency)  # => false
+  # end
+
   def test_plus
-    currency       = Currency.new(1, "USD") #given i have a currency
-    other_currency = Currency.new(5, "USD") #when i add another currency
-    expected       = Currency.new(6, "USD")       # => #<Currency:0x007fde4a149580 @amount_to_convert=6, @country_code="USD">
-    actual         = (currency + other_currency)  # => #<Currency:0x007fde4a149378 @amount_to_convert=6, @country_code="USD">
-    assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
-    # Currency.new(6, "USD")  (currency + other_currency)  # => false
+    if other.is_a?(Currency)
+      new_amount = other.amount_to_convert + @amount_to_convert
+      Currency.new(new_amount, @country_code)
+    else
+      raise DifferentCurrencyCodeError
+    end
   end
 
-  def test_subtract
-    currency       = Currency.new(5, "USD") #given i have a currency
-    other_currency = Currency.new(1, "USD") #when i subtract another currency
-    expected       = Currency.new(4, "USD")       # => #<Currency:0x007fde4a153dc8 @amount_to_convert=4, @country_code="USD">
-    actual         = (currency - other_currency)  # => #<Currency:0x007fde4a14be48 @amount_to_convert=4, @country_code="USD">
-    assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
+  # def test_subtract
+  #   currency       = Currency.new(5, "USD") #given i have a currency
+  #   other_currency = Currency.new(1, "USD") #when i subtract another currency
+  #   expected       = Currency.new(4, "USD")       # => #<Currency:0x007fb9ca10d930 @amount_to_convert=4, @country_code="USD">
+  #   actual         = (currency - other_currency)  # => #<Currency:0x007fb9ca10d750 @amount_to_convert=4, @country_code="USD">
+  #   assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
+  # end
+
+  def test_plus
+
   end
 
   def test_if_two_different_currency_object_amounts_to_convert_are_not_equal
@@ -73,42 +86,11 @@ class CurrencyTest < Minitest::Test
     end                                                       # => #<DifferentCurrencyCodeError: DifferentCurrencyCodeError>
   end
 
-  def test_ability_to_multiply_fixed_and_float_numbers  #returns a number not an object
-    skip
-    currency = Currency.new(1, "USD") #given I have a currency
-    conversion_multiplier = 30
-   #when I multiply the currency by a conversion rate
-    assert_equal(30, currency.amount_to_convert * 30) #integer
+  def test_ability_to_multiply_fixed_and_float_numbers
+  currency = Currency.new(1, "USD")                     # => #<Currency:0x007fb9ca107d50 @amount_to_convert=1, @country_code="USD">
+  result = currency * 30                                # => #<Currency:0x007fb9ca107b70 @amount_to_convert=30, @country_code="USD">
+  assert_equal(Currency.new(30, "USD"), result)         # => true
   end
 
-  def test_ability_to_multiply_fixed_and_float_numbers
-  currency = Currency.new(1, "USD") #given I have a currency
-  conversion_multiplier = 30
-   #when I multiply the currency by a conversion rate
-  assert_equal(Currency.new(30, "USD"), Currency.new(currency.amount_to_convert * 30, currency.country_code) ) #returns NEW object with the WRONG country code
-  end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-# >> Run options: --seed 1261
-# >>
-# >> # Running:
-# >>
-# >> S......S..
-# >>
-# >> Finished in 0.007899s, 1265.9683 runs/s, 1012.7746 assertions/s.
-# >>
-# >> 10 runs, 8 assertions, 0 failures, 0 errors, 2 skips
-# >>
-# >> You have skipped tests. Run with --verbose for details.
