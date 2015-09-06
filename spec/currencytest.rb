@@ -6,7 +6,7 @@ require_relative '../lib/currencyclass.rb'  # => true
 
 class CurrencyTest < Minitest::Test
 
-  # def initialize(amount_to_convert, country_code)
+  # def initialize(amount, code)
   #   @country_code = country_code
   #   @amount_to_convert = amount_to_convert
   # end
@@ -16,7 +16,7 @@ class CurrencyTest < Minitest::Test
   end
 
   def test_plus_exists
-    skip
+skip
     input_amount = Currency.new(1, "USD")
     assert_respond_to(input_amount, :plus)
   end
@@ -46,10 +46,6 @@ class CurrencyTest < Minitest::Test
   #   actual         = (currency - other_currency)  # => #<Currency:0x007fb9ca10d750 @amount_to_convert=4, @country_code="USD">
   #   assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
   # end
-
-  def test_plus
-
-  end
 
   def test_if_two_different_currency_object_amounts_to_convert_are_not_equal
     currency = Currency.new(1, "USD") #given I have a currency
