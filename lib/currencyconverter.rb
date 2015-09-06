@@ -6,28 +6,43 @@ class Converter
   attr_reader :country_conversions  # => nil
 
   def initialize
-    @country_conversions = {"USD" => 1, "GBP" => 0.659}
+    @country_conversions = {"USD" =>1, "GBP" => 3.5}
   end
 
   def view_hash
-    c = Converter.new
-    c.country_conversions
+    q = Converter.new
+    q.country_conversions
   end
 
   def convert(currency_object, requested_country_code)
-    # (new currency object with new country code, new amount)#how to replace the country code?
-    currency_converter.convert( Currency.new(10, :USD), :EUR ) == Currency.new(7.40, :EUR)
+    #Converter.new.convert( Currency.new(10, :USD), :EUR ) == Currency.new(7.40, :EUR)
+    initial_object = currency_object
+    #how do I create a new instance?
+    rate = @country_conversions[requested_country_code]
+    new_object = Currency.new(initial_object.amount_to_convert.*(rate), requested_country_code)
   end
 
+  def test_convert
+    #Should be able to take a Currency object that has one currency code it knows and a
+    #requested currency code and return a new
+    #Currency object with the right amount in the new currency code.
+    initial = Currency.new(1, "USD")      #given a currency object
+    q = Converter.new                     # and a requested currency code to convert
+    rate = q.country_conversions["GBP"]   #isolate the value at key
+                                          # rate = 3.5
+    new_object = Currency.new(initial.amount_to_convert.*(rate), "GBP")
+    assert_equal(Currency.new(3.5, "GBP"), new_object ) #return a new Currency object
+  end
+
+  #cannot finish until convert works
   def throw_error
-    c = Converter.new
-    unless @country_conversions.has_key(requested_country_code)
+    q = Currency.new(1, "USD")
+    unless @country_conversions.has_key?(requested_country_code)
       raise UnknownCurrencyCodeError
     end
   end
 
 end
-
 
 
 
