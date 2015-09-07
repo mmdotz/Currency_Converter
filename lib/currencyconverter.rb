@@ -14,12 +14,16 @@ class Converter
     @country_conversions = {"USD" =>1, "GBP" => 0.65, "EUR" => 0.86}
   end
 
-  #without error raised, any requested country_code given
+  #error not working, any requested country_code given
   def convert(currency_object, requested_country_code)
-    #Converter.new.convert( Currency.new(10, :USD), :EUR ) == Currency.new(7.40, :EUR)
+    #if @country_code || requested_country_code is not in hash
+    if @country_conversions.include?(requested_country_code)
     initial_object = currency_object
     rate = @country_conversions[requested_country_code]
     new_object = Currency.new(initial_object.amount_to_convert.*(rate), requested_country_code)
+    else
+      raise UnknownCurrencyCodeError
+    end
   end
 end
 
