@@ -26,8 +26,10 @@ class Currency
   # end
 
   def ==(other)  #this is required to make the "No visible difference" error go away
+      # if other.is_a?(Currency)
       self.amount_to_convert == other.amount_to_convert &&
       self.country_code == other.country_code
+      # end
   end
 
   def +(other) #working

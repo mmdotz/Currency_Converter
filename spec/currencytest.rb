@@ -19,8 +19,8 @@ class CurrencyTest < Minitest::Test
     # skip
     currency       = Currency.new(1, "USD") #given i have a currency
     other_currency = Currency.new(5, "USD") #when i add another currency
-    expected       = Currency.new(6, "USD")       # => #<Currency:0x007fb9ca107198 @amount_to_convert=6, @country_code="USD">
-    actual         = (currency + other_currency)  # => #<Currency:0x007fb9ca107008 @amount_to_convert=6, @country_code="USD">
+    expected       = Currency.new(6, "USD")       # => #<Currency:0x007fb2c411a8b8 @amount_to_convert=6, @country_code="USD">
+    actual         = (currency + other_currency)  # => #<Currency:0x007fb2c411a6d8 @amount_to_convert=6, @country_code="USD">
     assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
     #test error
     # initial_amount = Currency.new(1,"USD")
@@ -36,8 +36,8 @@ class CurrencyTest < Minitest::Test
     # skip
     currency       = Currency.new(2, "USD") #given i have a currency
     other_currency = Currency.new(1, "USD") #when i subtract another currency
-    expected       = Currency.new(1, "USD")       # => #<Currency:0x007fb9ca10d930 @amount_to_convert=4, @country_code="USD">
-    actual         = (currency - other_currency)  # => #<Currency:0x007fb9ca10d750 @amount_to_convert=4, @country_code="USD">
+    expected       = Currency.new(1, "USD")       # => #<Currency:0x007fb2c411b4e8 @amount_to_convert=1, @country_code="USD">
+    actual         = (currency - other_currency)  # => #<Currency:0x007fb2c411b308 @amount_to_convert=1, @country_code="USD">
     assert_equal(Currency.new(1, "USD"), actual) #then i should have a new currency of the combination of them both
   end
 
@@ -76,18 +76,18 @@ class CurrencyTest < Minitest::Test
     end                                                       # => #<DifferentCurrencyCodeError: DifferentCurrencyCodeError>
   end
 
-#correct?
   def test_ability_to_multiply_fixed_and_float_numbers
-  currency = Currency.new(1, "USD")                     # => #<Currency:0x007fb9ca107d50 @amount_to_convert=1, @country_code="USD">
-  result = currency * 30                                # => #<Currency:0x007fb9ca107b70 @amount_to_convert=30, @country_code="USD">
+  currency = Currency.new(1, "USD")                     # => #<Currency:0x007fb2c41215a0 @amount_to_convert=1, @country_code="USD">
+  rate = 30                                             # => 30
+  result = currency * rate                              # => #<Currency:0x007fb2c4121280 @amount_to_convert=30, @country_code="USD">
   assert_equal(Currency.new(30, "USD"), result)         # => true
   end
 
   def test_divide
-    currency = Currency.new(2, "USD")
-    other = Currency.new(0.75, "EUR")
-    new_amount = other.amount_to_convert / currency.amount_to_convert
-    assert_equal(Currency.new(0.375, "EUR"), Currency.new(new_amount, other.country_code))
+    currency = Currency.new(2, "USD")                                                       # => #<Currency:0x007fb2c4122040 @amount_to_convert=2, @country_code="USD">
+    other = Currency.new(0.75, "EUR")                                                       # => #<Currency:0x007fb2c4121e10 @amount_to_convert=0.75, @country_code="EUR">
+    new_amount = other.amount_to_convert / currency.amount_to_convert                       # => 0.375
+    assert_equal(Currency.new(0.375, "EUR"), Currency.new(new_amount, other.country_code))  # => true
   end
 
 end
