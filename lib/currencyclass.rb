@@ -30,36 +30,21 @@ class Currency
       self.country_code == other.country_code
   end
 
-  def +(other)
-    if other.is_a?(Currency) && if self.country_code.==(other.country_code)
-      new_amount = other.amount_to_convert + @amount_to_convert
+  def +(other) #working
+    if other.is_a?(Currency)
+    raise DifferentCurrencyCodeError if @country_code != other.country_code
+      new_amount =  @amount_to_convert + other.amount_to_convert
       Currency.new(new_amount, @country_code)
-    else
-    raise DifferentCurrencyCodeError
-    end
-  end
-    #   #OR
-    # else
-    #   Currency.new(self.amount_to_convert + other.amount_to_convert, self.country_code)
-    # end
-  end
-
-  def -(other)
-    if other.is_a?(Currency) && self.country_code.==(other.country_code)
-      new_amount = other.amount_to_convert - @amount_to_convert
-      Currency.new(new_amount, @country_code)
-    else
-    raise DifferentCurrencyCodeError
     end
   end
 
-  # def -(other)
-  #   if self.country_code != other.country_code
-  #     raise DifferentCurrencyCodeError
-  #   else
-  #     Currency.new(self.amount_to_convert - other.amount_to_convert, self.country_code)
-  #   end
-  # end
+  def -(other) #working
+    if other.is_a?(Currency)
+      raise DifferentCurrencyCodeError if @country_code != other.country_code
+      new_amount =  @amount_to_convert - other.amount_to_convert
+      Currency.new(new_amount, @country_code)
+    end
+  end
 
   def *(rate)
     if rate.is_a?(Fixnum) || rate.is_a?(Float)
@@ -68,15 +53,14 @@ class Currency
     end
   end     #==>returns currency object
 
-  #not tested
-  def /(other)
-    if other.is_a?(Currency) #&& if self.country_code.==(other.country_code)
+
+  def /(other)  #OK to have 2 diff country codes
+    if other.is_a?(Currency)
       new_amount = other.amount_to_convert / @amount_to_convert
       Currency.new(new_amount, other.country_code)
-    else
-    raise DifferentCurrencyCodeError
     end
   end
+
 end
 
 

@@ -15,38 +15,31 @@ class CurrencyTest < Minitest::Test
     assert(Currency)              # => true
   end
 
-  def test_plus_exists
-skip
-    input_amount = Currency.new(1, "USD")
-    assert_respond_to(input_amount, :plus)
+  def test_plus
+    # skip
+    currency       = Currency.new(1, "USD") #given i have a currency
+    other_currency = Currency.new(5, "USD") #when i add another currency
+    expected       = Currency.new(6, "USD")       # => #<Currency:0x007fb9ca107198 @amount_to_convert=6, @country_code="USD">
+    actual         = (currency + other_currency)  # => #<Currency:0x007fb9ca107008 @amount_to_convert=6, @country_code="USD">
+    assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
+    #test error
+    # initial_amount = Currency.new(1,"USD")
+    # add_amount     = Currency.new(1, "CDN")
+    # #raise error when do block
+    # assert_raises(DifferentCurrencyCodeError) do
+    # new_amount = (initial_amount + add_amount
+    # end
   end
 
-  # def test_plus
-  #   currency       = Currency.new(1, "USD") #given i have a currency
-  #   other_currency = Currency.new(5, "USD") #when i add another currency
-  #   expected       = Currency.new(6, "USD")       # => #<Currency:0x007fb9ca107198 @amount_to_convert=6, @country_code="USD">
-  #   actual         = (currency + other_currency)  # => #<Currency:0x007fb9ca107008 @amount_to_convert=6, @country_code="USD">
-  #   assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
-  #   # Currency.new(6, "USD")  (currency + other_currency)  # => false
-  # end
 
-  def test_plus #not passing
-     Currency.new(1, "USD")
-     Currency.new(5, "USD")
-      new_amount = other.amount_to_convert + @amount_to_convert
-      Currency.new(new_amount, @country_code)
-    assert_raises(DifferentCurrencyCodeError) do
-      other = Currency.new(5, "CDN")
-    end
+  def test_subtract
+    # skip
+    currency       = Currency.new(2, "USD") #given i have a currency
+    other_currency = Currency.new(1, "USD") #when i subtract another currency
+    expected       = Currency.new(1, "USD")       # => #<Currency:0x007fb9ca10d930 @amount_to_convert=4, @country_code="USD">
+    actual         = (currency - other_currency)  # => #<Currency:0x007fb9ca10d750 @amount_to_convert=4, @country_code="USD">
+    assert_equal(Currency.new(1, "USD"), actual) #then i should have a new currency of the combination of them both
   end
-
-  # def test_subtract
-  #   currency       = Currency.new(5, "USD") #given i have a currency
-  #   other_currency = Currency.new(1, "USD") #when i subtract another currency
-  #   expected       = Currency.new(4, "USD")       # => #<Currency:0x007fb9ca10d930 @amount_to_convert=4, @country_code="USD">
-  #   actual         = (currency - other_currency)  # => #<Currency:0x007fb9ca10d750 @amount_to_convert=4, @country_code="USD">
-  #   assert_equal(expected, actual)          #then i should have a new currency of the combination of them both
-  # end
 
   def test_if_two_different_currency_object_amounts_to_convert_are_not_equal
     currency = Currency.new(1, "USD") #given I have a currency
