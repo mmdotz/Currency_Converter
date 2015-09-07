@@ -30,12 +30,13 @@ skip
   #   # Currency.new(6, "USD")  (currency + other_currency)  # => false
   # end
 
-  def test_plus
-    if other.is_a?(Currency)
+  def test_plus #not passing
+     Currency.new(1, "USD")
+     Currency.new(5, "USD")
       new_amount = other.amount_to_convert + @amount_to_convert
       Currency.new(new_amount, @country_code)
-    else
-      raise DifferentCurrencyCodeError
+    assert_raises(DifferentCurrencyCodeError) do
+      other = Currency.new(5, "CDN")
     end
   end
 
@@ -82,10 +83,18 @@ skip
     end                                                       # => #<DifferentCurrencyCodeError: DifferentCurrencyCodeError>
   end
 
+#correct?
   def test_ability_to_multiply_fixed_and_float_numbers
   currency = Currency.new(1, "USD")                     # => #<Currency:0x007fb9ca107d50 @amount_to_convert=1, @country_code="USD">
   result = currency * 30                                # => #<Currency:0x007fb9ca107b70 @amount_to_convert=30, @country_code="USD">
   assert_equal(Currency.new(30, "USD"), result)         # => true
+  end
+
+  def test_divide
+    currency = Currency.new(2, "USD")
+    other = Currency.new(0.75, "EUR")
+    new_amount = other.amount_to_convert / currency.amount_to_convert
+    assert_equal(Currency.new(0.375, "EUR"), Currency.new(new_amount, other.country_code))
   end
 
 end
