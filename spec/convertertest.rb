@@ -17,13 +17,13 @@ class CurrencyConverter < Minitest::Test
 
   def test_hash_key_format
     # skip
-    q = Converter.new                                  # => #<Converter:0x007fd19c29d4a0 @country_conversions={"USD"=>1, "GBP"=>0.65, "EUR"=>0.86}>
+    q = Converter.new                                  # => #<Converter:0x007faca4010a38 @country_conversions={"USD"=>1, "GBP"=>0.65, "EUR"=>0.86}>
     assert_equal("USD", q.country_conversions.key(1))  # => true
   end
 
   def test_hash_value_format
     # skip
-    q = Converter.new                                               # => #<Converter:0x007fd19c29caf0 @country_conversions={"USD"=>1, "GBP"=>0.65, "EUR"=>0.86}>
+    q = Converter.new                                               # => #<Converter:0x007faca40102b8 @country_conversions={"USD"=>1, "GBP"=>0.65, "EUR"=>0.86}>
     #test pulling values out of hash                      # => #<Converter:0x007fa835023570 @country_conversions={"USD"=>1, "GBP"=>0.659}>
     assert_equal(1, q.country_conversions["USD"])                   # => true
     assert_equal(true, q.country_conversions["USD"].is_a?(Fixnum))  # => true
@@ -38,24 +38,27 @@ class CurrencyConverter < Minitest::Test
 
     initial = Currency.new(5, "GBP")                # given a currency object
     requested_currency = "EUR"                      # and a requested currency code to convert
-    q = Converter.new                                                                                                # => #<Converter:0x007fd19c29d4f0 @country_conversions={"USD"=>1, "GBP"=>0.65, "EUR"=>0.86}>
+    q = Converter.new                                                                                                # => #<Converter:0x007faca3b177e8 @country_conversions={"USD"=>1, "GBP"=>0.65, "EUR"=>0.86}>
     initial_rate = q.country_conversions["GBP"]     #0.65
     requested_rate = q.country_conversions["EUR"]   #0.86
-    converted_object = Currency.new(initial.amount_to_convert.*((requested_rate/initial_rate)), requested_currency)  # => #<Currency:0x007fd19c29d040 @amount_to_convert=6.615384615384615, @country_code="EUR">
-    assert_equal(Currency.new(6.615384615384615, "EUR"), converted_object ) #return a new Currency object
+    converted_object = Currency.new(initial.amount_to_convert.*((requested_rate/initial_rate)), requested_currency)  # => #<Currency:0x007faca3b172e8 @amount_to_convert=6.615384615384615, @country_code="EUR">
+    assert_equal(Currency.new(6.615384615384615, "EUR"), converted_object )                                          # => true
   end
 
 
-  def test_if_exception_UnknownCurrencyCodeError_is_raised
+  def test_convert_to_and_from_country_code
     skip  #not working
     # raise UnknownCurrencyCodeError when attempt convert from/to currency code unknown to program
-    initial = Currency.new(5, "GBP")                # given a currency object
-    requested_currency = "wrong"                    # and a requested currency code to convert
-    q = Converter.new                                                                                                # => #<Converter:0x007fd19c29d4f0 @country_conversions={"USD"=>1, "GBP"=>0.65, "EUR"=>0.86}>
-    initial_rate = q.country_conversions["GBP"]     #0.65
-    requested_rate = q.country_conversions["wrong"]   #0.86
-    converted_object = Currency.new(initial.amount_to_convert.*((requested_rate/initial_rate)), requested_currency)  # => #<Currency:0x007fd19c29d040 @amount_to_convert=6.615384615384615, @country_code="EUR">
-    assert_equal(Currency.new(6.615384615384615, "EUR"), converted_object ) #return a new Currency object
+    assert_raises(UnknownCurrencyCodeError) do
+      initial = Currency.new(5, "GBP")                  # given a currency object
+      requested_currency = "wrong"                      # and a requested currency code to convert
+      q = Converter.new
+      initial_rate = q.country_conversions["GBP"]       #0.65
+      requested_rate = q.country_conversions["wrong"]   #0.86
+      converted_object = Currency.new(initial.amount_to_convert.*(
+        (requested_rate/initial_rate)
+          ), requested_currency)
+    end
   end
 
   def test_if_exception_UnknownCurrencyCodeError_is_raised
@@ -66,8 +69,25 @@ class CurrencyConverter < Minitest::Test
     requested_currency = "wrong"                    # and an unknown requested currency code
     q = Converter.new                               # create new instance
     initial_rate = q.country_conversions["GBP"]     # 0.65
-    requested_rate = q.country_conversions["wrong"]
+    # requested_rate = q.country_conversions["wrong"]
+    requested_rate = q.convert(initial, "wrong")
    end
   end
 
 end
+
+
+
+
+# ur not calling the `convert` method in the test.
+
+# Justin Herrick [9:34 PM]
+# replace this line `requested_rate = q.country_conversions["wrong"]` with this:
+
+# Justin Herrick [9:34 PM]
+# `q.convert(initial, "wrong")`
+
+# Michelle Dotzenrod [9:42 PM]
+# I get a nil Class error on [] on line 3 above. How do I  call convert in its own method? I'm t
+
+
