@@ -31,7 +31,7 @@ class CurrencyConverter < Minitest::Test
   end
 
   def test_convert_with_known_code
-    skip
+    # skip
     #Should be able to take a Currency object that has one currency code it knows and a
     #requested currency code and return a new
     #Currency object with the right amount in the new currency code.
@@ -39,25 +39,17 @@ class CurrencyConverter < Minitest::Test
     initial = Currency.new(5, "GBP")                # given a currency object
     requested_currency = "EUR"                      # and a requested currency code to convert
     q = Converter.new                                                                                                # => #<Converter:0x007faca3b177e8 @country_conversions={"USD"=>1, "GBP"=>0.65, "EUR"=>0.86}>
-    initial_rate = q.country_conversions["GBP"]     #0.65
-    requested_rate = q.country_conversions["EUR"]   #0.86
-    converted_object = Currency.new(initial.amount_to_convert.*(
-    (requested_rate/initial_rate)
-    ), requested_currency)                          # => #<Currency:0x007faca3b172e8 @amount_to_convert=6.615384615384615, @country_code="EUR">
-    assert_equal(Currency.new(6.615384615384615, "EUR"), converted_object )                                          # => true
+    actual = q.convert(initial, requested_currency)                       # => #<Currency:0x007faca3b172e8 @amount_to_convert=6.615384615384615, @country_code="EUR">
+    assert_equal(Currency.new(6.615384615384615, "EUR"), actual)                                          # => true
   end
 
     def test_if_exception_UnknownCurrencyCodeError_is_raised
     # skip
       assert_raises(UnknownCurrencyCodeError)  do
-      initial = Currency.new(5, "GBP")                  # given a currency object
-      requested_currency = "wrong"                      # and a requested currency code to convert
-      q = Converter.new
-      initial_rate = q.country_conversions["GBP"]       #0.65
-      requested_rate = q.country_conversions["wrong"]
-      converted_object = Currency.new(initial.amount_to_convert.*(
-        (requested_rate/initial_rate)
-          ), requested_currency)
+        initial = Currency.new(5, "GBP")                  # given a currency object
+        requested_currency = "wrong"                      # and a requested currency code to convert
+        q = Converter.new
+        q.convert(initial, requested_currency)
       end
     end
 end
