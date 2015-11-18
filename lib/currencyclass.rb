@@ -13,26 +13,19 @@ end
 
 class Currency
 
-  attr_reader :amount_to_convert, :country_code  # => nil
-
+  attr_reader :amount_to_convert, :country_code
+  
   def initialize(amount, country)
     @amount_to_convert = amount
     @country_code = country
   end
 
-  # def ==(other)  #this is required to make the "No visible difference" error go away
-  #     @amount_to_convert == other.amount_to_convert &&
-  #     @country_code == other.country_code
-  # end
-
   def ==(other)  #this is required to make the "No visible difference" error go away
-      # if other.is_a?(Currency)
       self.amount_to_convert == other.amount_to_convert &&
       self.country_code == other.country_code
-      # end
   end
 
-  def +(other) #working
+  def +(other)
     if other.is_a?(Currency)
     raise DifferentCurrencyCodeError if @country_code != other.country_code
       new_amount =  @amount_to_convert + other.amount_to_convert
@@ -64,5 +57,3 @@ class Currency
   end
 
 end
-
-
