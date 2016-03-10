@@ -14,7 +14,7 @@ end
 class Currency
 
   attr_reader :amount_to_convert, :country_code
-  
+
   def initialize(amount, country)
     @amount_to_convert = amount
     @country_code = country

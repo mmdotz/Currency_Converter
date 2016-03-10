@@ -21,5 +21,9 @@ class Converter
     requested_rate = @country_conversions[requested_country_code]
     converted_object = Currency.new(currency_object.amount_to_convert.*((requested_rate/initial_rate)), requested_country_code)
   end
-
 end
+
+
+cq = Currency.new(2, "USD")
+ccq = Converter.new.convert(cq, "EUR")
+puts "#{cq.amount_to_convert} #{cq.country_code} is equal to #{ccq.amount_to_convert} #{ccq.country_code}"
